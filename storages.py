@@ -18,13 +18,14 @@ class ClientStorage:
         """
         key = parse.unquote(sessionid.strip(" \""))
         try:
+            self.db.insert({'sessionid': key, 'settings': json.dumps(cl.get_settings())})
             settings = json.loads(self.db.search(Query().sessionid == key)[0]['settings'])
             cl = Client()
             cl.set_settings(settings)
             cl.get_timeline_feed()
             return cl
         except IndexError:
-            raise Exception('Session not found (e.g. after reload process), please relogin')
+            raise Exception('Session not found (e.g. after reload process), please relogin!')
 
     def set(self, cl: Client) -> bool:
         """Set client settings
