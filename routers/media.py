@@ -66,7 +66,7 @@ async def user_medias(sessionid: str = Form(...),
 
 
 ###################################################################
-
+# useless: alread exists a method in instagrapi
 def get_collection_id(collections,collection_name):
     
     collections_dict = {}
@@ -94,9 +94,10 @@ async def media_collectionbyname(sessionid: str,
     cl = clients.get(sessionid)
 
     try:
-        print(f"Getting collection{collection_name}")
-        collection_id = get_collection_id(cl.collections(),collection_name)
-        saved_posts = cl.collection_medias(collection_pk=collection_id, amount=10)
+        print(f"Getting collection {collection_name}")
+        saved_posts = collection_medias_by_name(collection_name)
+        #collection_id = get_collection_id(cl.collections(),collection_name)
+        #saved_posts = cl.collection_medias(collection_pk=collection_id, amount=0)
         saved_dict = {}
         for post in saved_posts:
             saved_dict[post.pk] = post.dict()

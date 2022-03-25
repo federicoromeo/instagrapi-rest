@@ -63,7 +63,6 @@ async def auth_relogin_sessionid(#collection_name: str,
 
     try:
         result = cl.login_by_sessionid(sessionid) #todo: check on result
-        #####################################################################
 
         collection_name = 'Travel'
         saved_posts = cl.collection_medias_by_name(collection_name)
@@ -73,14 +72,12 @@ async def auth_relogin_sessionid(#collection_name: str,
             saved_dict[post.pk] = post.dict()
         print(f"\nCollection len: '{len(saved_dict.keys())}':")
         return saved_dict
-        #####################################################################
-
-        #return result
+        # return result
     except Exception as e:
-        print("EXCEPTION IN login_sessionid & get_collection(toghether")
+        print("EXCEPTION IN login_sessionid & get_collection(together")
         print(e)
 
-###################################################################
+####################################################################
 
 @router.post("/add/sessionid")
 async def auth_add_sessionid(sessionid: str = Form(...),
@@ -98,9 +95,9 @@ async def auth_add_sessionid(sessionid: str = Form(...),
 
 @router.get("/collectionbyname")
 async def auth_collectionbyname(sessionid: str,
-                             collection_name: str,
-                             #amount: int, # 0 if all
-                             clients: ClientStorage = Depends(get_clients)) -> Dict:
+                                collection_name: str,
+                                #amount: int, # 0 if all
+                                clients: ClientStorage = Depends(get_clients)) -> Dict:
     """Get collection's posts by name
     """
     cl = clients.get(sessionid)
