@@ -31,7 +31,7 @@ class ClientStorage:
         except IndexError:
             raise Exception('Session not found (e.g. after reload process), please relogin!')
         except Exception as e:
-            print("EXCEPTION IN sorages.py GET")
+            print("EXCEPTION IN storages.py GET")
             print(e)
 
     def set(self, cl: Client) -> bool:

@@ -65,39 +65,21 @@ async def user_medias(sessionid: str = Form(...),
     return cl.user_medias(user_id, amount)
 
 
-###################################################################
-# useless: alread exists a method in instagrapi
-def get_collection_id(collections,collection_name):
-    
-    collections_dict = {}
-    i = 0
-    for col in collections:
-        collections_dict[i] = {}   
-        collections_dict[i] = col.dict()
-        i += 1
-
-    for i in range(len(collections)):
-        if collections_dict[i]['name'] == collection_name:
-            return collections_dict[i]['id']
-
-    raise Exception(f"Collection '{collection_name}' not found!")
-
 #########################################################
-# not used by now
+
 @router.post("/collectionbyname")
-async def media_collectionbyname(sessionid: str,
-                                 collection_name: str,
-                                 #amount: int, # 0 if all
-                                 clients: ClientStorage = Depends(get_clients)) -> Dict:
+async def collectionbyname(sessionid: str = Form(...),
+                           collection_name: str = Form(...),
+                           #amount: int, # 0 if all
+                           clients: ClientStorage = Depends(get_clients)) -> Dict:
     """Get collection's posts by name
     """
     cl = clients.get(sessionid)
+    cl.login_by_sessionid(sessionid)
 
     try:
         print(f"Getting collection {collection_name}")
-        saved_posts = collection_medias_by_name(collection_name)
-        #collection_id = get_collection_id(cl.collections(),collection_name)
-        #saved_posts = cl.collection_medias(collection_pk=collection_id, amount=0)
+        saved_posts = cl.collection_medias_by_name(collection_name)
         saved_dict = {}
         for post in saved_posts:
             saved_dict[post.pk] = post.dict()
