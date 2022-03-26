@@ -78,7 +78,7 @@ async def collectionbyname(sessionid: str = Form(...),
     cl.login_by_sessionid(sessionid)
 
     try:
-        print(f"Getting collection {collection_name}")
+        print(f"\nGetting collection '{collection_name}'")
         saved_posts = cl.collection_medias_by_name(collection_name)
         saved_dict = {}
         for post in saved_posts:

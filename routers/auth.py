@@ -57,6 +57,7 @@ async def auth_add_sessionid(sessionid: str = Form(...),
                              clients: ClientStorage = Depends(get_clients)) -> str:
     """Add Instagram Basic Display API sessionid
     """
+    print("\n\nAdd session...")
     result = clients.add_session(sessionid)
     return result
 
@@ -68,7 +69,7 @@ async def auth_relogin_sessionid(#collection_name: str,
                                  clients: ClientStorage = Depends(get_clients)) -> Dict:
     """Relogin with Instagram Basic Display API sessionid
     """
-    print("\nRELOGIN by sessionid")
+    print("\nRelogin by sessionid...")
     cl = clients.get(sessionid)
 
     try:
