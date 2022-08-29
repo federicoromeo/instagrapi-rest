@@ -75,16 +75,23 @@ async def collectionbyname(sessionid: str = Form(...),
     """Get collection's posts by name
     """
     cl = clients.get(sessionid)
-    cl.login_by_sessionid(sessionid)
+
+    try:
+        cl.login_by_sessionid(sessionid)
+    except Exception as e:
+        print("Exception in collectionbyname when performing login_by_sessionid:")
+        print(e)
 
     try:
         print(f"\nGetting collection '{collection_name}'")
-        saved_posts = cl.collection_medias_by_name(collection_name)
+        id = cl.collection_pk_by_name(collection_name)
+        saved_posts = cl.collection_medias(collection_pk=id, amount=0)
         saved_dict = {}
         for post in saved_posts:
             saved_dict[post.pk] = post.dict()
         return saved_dict
     except Exception as e:
+        print("Except: ---")
         print(e)
 
 #########################################################

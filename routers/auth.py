@@ -64,19 +64,23 @@ async def auth_add_sessionid(sessionid: str = Form(...),
 ###################################################################
 
 @router.post("/relogin/sessionid")
-async def auth_relogin_sessionid(#collection_name: str,
-                                 sessionid: str = Form(...),
-                                 clients: ClientStorage = Depends(get_clients)) -> Dict:
+async def auth_relogin_sessionid( sessionid: str = Form(...),
+                                  clients: ClientStorage = Depends(get_clients)) -> str:
     """Relogin with Instagram Basic Display API sessionid
     """
     print("\nRelogin by sessionid...")
+    if sessionid == "" or sessionid == None or sessionid == "null":
+        print("sessionid is null. WebView not opening?")
+        return False
+
+    print(f"sessionid: {sessionid}")
     cl = clients.get(sessionid)
 
     try:
         result = cl.login_by_sessionid(sessionid) #todo: check on result
         return result
     except Exception as e:
-        print("EXCEPTION IN login_sessionid & get_collection(together")
+        print("EXCEPTION IN auth_relogin_sessionid")
         print(e)
 
 ####################################################################
@@ -84,7 +88,7 @@ async def auth_relogin_sessionid(#collection_name: str,
 
 @router.get("/settings/get")
 async def settings_get(sessionid: str,
-                   clients: ClientStorage = Depends(get_clients)) -> Dict:
+                       clients: ClientStorage = Depends(get_clients)) -> Dict:
     """Get client's settings
     """
     cl = clients.get(sessionid)
